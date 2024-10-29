@@ -1,0 +1,41 @@
+{
+  "name": "dot-mike/nmswidgetalertrules",
+  "description": "LibreNMS plugin that adds dashboard widget to display alert rules with status",
+  "version": "1.0.0",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "dot-mike",
+      "email": "d0tmike@pm.me"
+    }
+  ],
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "DotMike\\NmsWidgetAlertRules\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DotMike\\NmsWidgetAlertRules\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "DotMike\\NmsWidgetAlertRules\\Providers\\WidgetServiceProvider"
+      ]
+    }
+  },
+  "archive": {
+    "exclude": [
+      ".devcontainer",
+      ".vscode",
+      "screenshots"
+    ]
+  },
+  "require": {
+    "librenms/plugin-interfaces": "^1.0"
+  }
+}

@@ -1,0 +1,9 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+33 */6 * * * vscode /var/www/html/librenms/cronic /var/www/html/librenms/discovery-wrapper.py 1
+*/5 * * * * vscode /var/www/html/librenms/discovery.php -h new >> /dev/null 2>&1
+*/5 * * * * vscode /var/www/html/librenms/cronic /var/www/html/librenms/poller-wrapper.py 16
+* * * * * vscode /var/www/html/librenms/alerts.php >> /dev/null 2>&1
+*/5 * * * * vscode /var/www/html/librenms/poll-billing.php >> /dev/null 2>&1
+01 * * * * vscode /var/www/html/librenms/billing-calculate.php >> /dev/null 2>&1
+*/5 * * * * vscode /var/www/html/librenms/check-services.php >> /dev/null 2>&1

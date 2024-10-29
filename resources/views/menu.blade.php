@@ -1,0 +1,1 @@
+<a href="{{ route('plugin.nmswidgetalertrules.index') }}"><i class="fa fa-steam fa-fw fa-lg" aria-hidden="true"></i> Alert Rules Widget</a>
