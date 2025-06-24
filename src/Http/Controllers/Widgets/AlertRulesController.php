@@ -2,29 +2,23 @@
 
 namespace DotMike\NmsWidgetAlertRules\Http\Controllers\Widgets;
 
-use App\Models\Device;
-use App\Models\DeviceGroup;
-use App\Models\Alert;
+use App\Http\Controllers\Widgets\WidgetController;
 use App\Models\AlertRule;
-use App\Facades\DeviceCache;
 
 use LibreNMS\Enum\AlertState;
 
-use App\Http\Controllers\Widgets\WidgetController;
-
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AlertRulesController extends WidgetController
 {
 
-    protected $title = 'Alert Rules';
     protected $defaults = [
         'title' => null,
         'alert_rules' => [],
     ];
 
-    public function getView(Request $request)
+    public function getView(Request $request) : View
     {
         $settings = $this->getSettings();
 
@@ -56,10 +50,15 @@ class AlertRulesController extends WidgetController
         return view('nmswidgetalertrules::widgets.alert-groups', ['alertRules' => $query]);
     }
 
-    public function getSettingsView(Request $request)
+    public function getSettingsView(Request $request): View
     {
         $data = $this->getSettings(true);
         $data['alert_rules'] = AlertRule::whereIn('id', $data['alert_rules'])->get(['id', 'name']);
         return view('nmswidgetalertrules::widgets.settings', $data);
+    }
+
+    public function getTitle(): string
+    {
+        return __('nmswidgetalertrules::widgets.alert-rules.title');
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'widget-alert-rules' => [
+    'alert-rules' => [
         'title' => 'Alert Rules',
     ],
 ];

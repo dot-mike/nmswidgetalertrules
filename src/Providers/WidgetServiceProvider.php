@@ -8,11 +8,7 @@ use LibreNMS\Interfaces\Plugins\PluginManagerInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\MenuEntryHook;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Lang;
-
-use ReflectionClass;
 
 class WidgetServiceProvider extends ServiceProvider
 {
@@ -24,7 +20,6 @@ class WidgetServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerBindings();
-        $this->extendDashboardWidgets();
     }
 
     /**
@@ -46,30 +41,6 @@ class WidgetServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', $pluginName);
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', $pluginName);
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-
-        // Workaround to merge existing translations with custom widget translations
-        $locale = app()->getLocale();
-        $group = 'widgets';
-        $loader = Lang::getLoader();
-
-        // Load existing translations for the 'widgets' group
-        $existingTranslations = $loader->load($locale, $group);
-        $existingTranslations = array_combine(
-            array_map(fn($key) => 'widgets.' . $key, array_keys($existingTranslations)),
-            $existingTranslations
-        );
-
-        // Load custom widget translations and prefix them with 'widgets.'
-        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', $pluginName);
-        $myTranslations = Lang::get($pluginName . '::widgets');
-        $prefixedMyTranslations = array_combine(
-            array_map(fn($key) => 'widgets.' . $key, array_keys(Arr::dot($myTranslations))),
-            Arr::dot($myTranslations)
-        );
-
-        // Merge existing translations with custom widget translations
-        $mergedTranslations = array_merge($existingTranslations, $prefixedMyTranslations);
-        Lang::addLines($mergedTranslations, $locale);
     }
 
     protected function registerBindings(): void
@@ -84,21 +55,5 @@ class WidgetServiceProvider extends ServiceProvider
         $composerFile = __DIR__ . '/../../composer.json';
         $composerData = json_decode(file_get_contents($composerFile), true);
         return $composerData['version'] ?? 'unknown';
-    }
-
-
-    protected function extendDashboardWidgets()
-    {
-        $controller = new ReflectionClass(\App\Http\Controllers\DashboardController::class);
-
-        // Access the static property
-        $property = $controller->getProperty('widgets');
-        $property->setAccessible(true);
-        $currentWidgets = $property->getValue();
-
-        $currentWidgets[] = 'widget-alert-rules';
-
-        // Set the modified array back
-        $property->setValue(null, $currentWidgets);
     }
 }
