@@ -25,7 +25,8 @@ class AlertRulesController extends WidgetController
         $query = AlertRule::withCount(
             [
                 'alerts as alerts_active' => function ($query) {
-                    $query->where('state', AlertState::ACTIVE);
+                    //$query->where('state', AlertState::ACTIVE);
+                    $query->whereIn('state', [AlertState::ACTIVE, AlertState::CHANGED]);
                 },
                 'alerts as alerts_acknowledged' => function ($query) {
                     $query->where('state', AlertState::ACKNOWLEDGED);
