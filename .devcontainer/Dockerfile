@@ -1,6 +1,9 @@
-FROM mcr.microsoft.com/devcontainers/php:1-8.3-bullseye
+FROM mcr.microsoft.com/devcontainers/php:1-8.2-bookworm
 
 COPY php.ini /usr/local/etc/php/conf.d/99-php.ini
+
+# Remove broken third-party apt sources from the base image
+RUN rm -f /etc/apt/sources.list.d/yarn.list
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y \
