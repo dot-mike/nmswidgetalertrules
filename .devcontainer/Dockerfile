@@ -1,4 +1,3 @@
-ARG LIBRENMS_VERSION=24.9.1
 FROM mcr.microsoft.com/devcontainers/php:1-8.3-bullseye
 
 COPY php.ini /usr/local/etc/php/conf.d/99-php.ini

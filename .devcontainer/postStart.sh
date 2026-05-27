@@ -2,7 +2,9 @@
 
 sudo service cron start
 
-LIBRENMS_VERSION=${LIBRENMS_VERSION:-24.9.1}
+: "${LIBRENMS_VERSION:?must be set by docker-compose}"
+
+export LIBRENMS_USER=vscode
 
 # env LIBRENMS_FOLDER is the folder where librenms is installed
 LIBRENMS_FOLDER_BASE=$(dirname $(realpath $LIBRENMS_FOLDER))
@@ -37,6 +39,8 @@ sed -i '/INSTALL=true/d' .env
 #echo \$config[\'db_user\'] = \'$DB_USER\'\; | tee -a config.php
 #echo \$config[\'db_pass\'] = \'$DB_PASSWORD\'\; | tee -a config.php
 #echo \$config[\'db_name\'] = \'$DB_NAME\'\; | tee -a config.php
+echo \$config[\'password.uncompromised\'] = false\; | tee -a config.php
+echo \$config[\'password.min_length\'] = 1\; | tee -a config.php
 
 echo "Setting up librenms"
 
