@@ -1,7 +1,7 @@
 {
   "name": "dot-mike/nmswidgetalertrules",
   "description": "LibreNMS plugin that adds dashboard widget to display alert rules with status",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "type": "library",
   "license": "MIT",
   "authors": [
